@@ -145,6 +145,30 @@
         float: right;
         margin: 1%;
     }
+
+    .detalhesPedido #mostrar_prod {
+        background-color: #DED4BD;
+        padding: 5px;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .detalhesPedido {
+        font-size: 1.2em;
+    }
+
+    .produtu {
+        margin-top: 1%;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    .produtu img {
+        width: 20% !important;
+        height: auto !important;
+    }
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -182,7 +206,6 @@
 
 
                 <?php
-
                 include_once('classes/Usuario.php');
                 $crud = new Usuario($db);
 
@@ -223,6 +246,8 @@
                         <a id="ola">
                             <?php echo 'Olá, ' . ucfirst($_SESSION['nome']) . '!'; ?>
                         </a>
+                        <a class="navbar-brand " id="not" href="">
+                            <i class="material-symbols-outlined">notifications</i></a>
                         <a class="navbar-brand " id="lo" href="dashboard-admin.php">
                             <i class="material-symbols-outlined">settings</i></a>
                         <a class="navbar-brand " id="lo" href="logout.php">
@@ -286,10 +311,13 @@
 
                 <div class="modal-footer">
                     <div id="mensagemAviso" style="display: none; background-color: #ffc107; color: #333; padding: 10px;">
-                        <p>Você precisa estar logado para finalizar a compra. <a href="login.php">Ir para o Login</a></p>
+                        <p>Você precisa estar logado para finalizar o pedido. <a href="login.php">Ir para o Login</a></p>
+                    </div>
+                    <div id="mensagemAviso2" style="display: none; background-color: #ffc107; color: #333; padding: 10px;">
+                        <p>Não há produtos para finalizar este pedido. <a href="produtos.php">Ver produtos</a></p>
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Finalizar Compra</button>
+                    <button type="button" class="btn btn-primary">Finalizar Pedido</button>
                 </div>
             </div>
         </div>
@@ -309,21 +337,12 @@
 
                 <div class="modal-body">
                     <div id="detalhesPedido">
-                        <p><strong>Preço Total:</strong> <span id="precoTotal"></span></p>
-                        <p><strong>Rua:</strong> <span id="ruaPedido"></span></p>
-                        <p><strong>Método de Pagamento:</strong> <span id="metodoPagamento"></span></p>
+                        <p>Não há pedidos no momento...</p>
                     </div>
-                    <button id="mostrarProdutosBtn" class="btn btn-info">Mostrar Produtos</button>
-                    <ul id="pedido-produtos" style="display: none;">
-                        <!-- ... Produtos serão adicionados aqui ... -->
-                    </ul>
                 </div>
 
 
                 <div class="modal-footer">
-                    <div id="mensagemAviso" style="display: none; background-color: #ffc107; color: #333; padding: 10px;">
-                        <p>Você precisa estar logado para finalizar a compra. <a href="login.php">Ir para o Login</a></p>
-                    </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-primary" onclick="window.location.href='https://wa.me/5541997504019?text=Ol%C3%A1%21'">Entre em contato</button>
                 </div>
@@ -555,6 +574,43 @@
         }
     }
 
+    $(document).ready(function() {
+        // ...
+
+        // Manipulador de clique para o botão "Finalizar Compra"
+        $('#carrinhoModal').on('click', '.btn-primary', function() {
+            // Verificar se o usuário está logado
+            <?php if (empty($_SESSION['email'])) { ?>
+                // Se não estiver logado, exibir mensagem
+                $('#mensagemAviso').show();
+            <?php } else { ?>
+                // Se estiver logado, verificar se há produtos no carrinho
+                var totalProdutos = $('#carrinho-produtos').find('tr.prod').length;
+                if (totalProdutos === 0) {
+                    // Não há produtos no carrinho
+                    $('#mensagemAviso2').show();
+                } else {
+                    // Há produtos no carrinho, prosseguir com a finalização da compra
+                    window.location.href = 'pagina_finalizar_compra.php';
+                    $('#mensagemAviso').hide();
+
+                    // Fechar o modal
+                    var myModal = new bootstrap.Modal(document.getElementById('carrinhoModal'));
+                    myModal.hide();
+                }
+            <?php } ?>
+        });
+
+        var urlAtual = window.location.href;
+
+        // Verifica se a URL contém uma parte específica
+        if (urlAtual.indexOf('/um-produto.php') !== -1) {
+            // A pessoa está na página específica
+            // Execute o código para ocultar a funcionalidade aqui
+            document.getElementById('pessoa').style.display = 'none';
+        }
+    });
+
     // Carregue o carrinho inicialmente
     atualizarCarrinho();
 
@@ -592,77 +648,54 @@
         });
     }
 
-    $(document).ready(function() {
-        // ...
 
-        // Manipulador de clique para o botão "Finalizar Compra"
-        $('#carrinhoModal').on('click', '.btn-primary', function() {
-            // Verificar se o usuário está logado
-            <?php if (empty($_SESSION['email'])) { ?>
-                // Se não estiver logado, exibir mensagem
-                $('#mensagemAviso').show();
-            <?php } else { ?>
-                // Se estiver logado, realizar a lógica de finalização de compra
-                // Adicione aqui a lógica para finalizar a compra, se necessário
-                // ...
-
-                window.location.href = 'pagina_finalizar_compra.php';
-                $('#mensagemAviso').hide();
-
-                // Fechar o modal
-                var myModal = new bootstrap.Modal(document.getElementById('carrinhoModal'));
-                myModal.hide();
-            <?php } ?>
-        });
-
-        var urlAtual = window.location.href;
-
-        // Verifica se a URL contém uma parte específica
-        if (urlAtual.indexOf('/um-produto.php') !== -1) {
-            // A pessoa está na página específica
-            // Execute o código para ocultar a funcionalidade aqui
-            document.getElementById('pessoa').style.display = 'none';
-        }
-
-    });
 
     $(document).ready(function() {
+        var isAdmin = <?php echo isset($isAdmin) && $isAdmin ? 'true' : 'false'; ?>;
         $.ajax({
             url: 'get_pedido.php',
             type: 'GET',
             dataType: 'json',
+            data: { isAdmin: isAdmin },
             success: function(data) {
                 var modalBody = $('#pedidoModal .modal-body');
-                modalBody.empty(); // Limpa o conteúdo anterior
+                modalBody.empty();
 
-                data.forEach(function(pedido) {
-                    var htmlPedido = '<div class="detalhesPedido">' +
-                        '<p><strong>Preço Total:</strong> ' + pedido.preco_total + '</p>' +
-                        '<p><strong>Rua:</strong> ' + pedido.rua + '</p>' +
-                        '<p><strong>Método de Pagamento:</strong> ' + pedido.metodo_pagamento + '</p>' +
-                        '<button class="btn btn-secondary mostrarProdutosBtn">Mostrar Produtos</button>' +
-                        '<ul class="pedido-produtos" style="display: none;">';
+                if (data.length > 0) {
+                    data.forEach(function(pedido) {
+                        var htmlPedido = '<div class="detalhesPedido">' +
+                            '<p><strong>Preço Total:</strong> ' + pedido.preco_total + '</p>' +
+                            '<p><strong>Rua:</strong> ' + pedido.rua + '</p>' +
+                            '<p><strong>Método de Pagamento:</strong> ' + pedido.metodo_pagamento + '</p>' +
+                            '<button class="btn mostrarProdutosBtn" id="mostrar_prod">Visualizar Produtos ⇩</button>' +
+                            '<ul class="pedido-produtos" style="display: none;">';
 
-                    pedido.produtos.forEach(function(produto) {
-                        htmlPedido += '<li>' +
-                            '<img src="' + produto.foto_produto + '" alt="' + produto.nome_produto + '" style="width: 50px; height: 50px;"> ' +
-                            produto.nome_produto + ' - Quantidade: ' + produto.quantidade + ' - Preço: ' + produto.preco +
-                            '</li>';
+                        pedido.produtos.forEach(function(produto) {
+                            htmlPedido +=
+                                '<div class="produtu">' +
+                                '<img src="' + produto.foto_produto + '" alt="' + produto.nome_produto + '" style="width: 50px; height: 50px;"> ' +
+                                '<div class="produ">  <strong>' + produto.nome_produto + '</strong>  ' +
+                                produto.quantidade + 'x' +
+                                '  R$' + produto.preco +
+                                '</div>';
+                            '</div>';
+
+                        });
+
+                        htmlPedido += '</ul></div>';
+
+                        htmlPedido += '<tr class="linha-divisao"><td colspan="4"><hr></td></tr>';
+
+                        modalBody.append(htmlPedido);
                     });
 
-
-
-                    htmlPedido += '</ul></div>';
-
-                    htmlPedido += '<tr class="linha-divisao"><td colspan="4"><hr></td></tr>';
-
-                    modalBody.append(htmlPedido);
-                });
-
-                // Adiciona evento de clique para mostrar produtos
-                $('.mostrarProdutosBtn').click(function() {
-                    $(this).next('.pedido-produtos').toggle();
-                });
+                    // Adiciona evento de clique para mostrar produtos
+                    $('.mostrarProdutosBtn').click(function() {
+                        $(this).next('.pedido-produtos').toggle();
+                    });
+                } else {
+                    modalBody.append('<p>Nenhum pedido encontrado para o usuário.</p>');
+                }
             },
             error: function(error) {
                 console.log('Erro ao obter dados do pedido:', error);

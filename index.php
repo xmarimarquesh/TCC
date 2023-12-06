@@ -13,11 +13,10 @@ $produtosDestaque = [];
 $queryDestaque = "SELECT * FROM produtos WHERE destaque = 1";
 $resultDestaque = $db->query($queryDestaque);
 if ($resultDestaque->rowCount() > 0) {
-    
-        while ($row = $resultDestaque->fetch(PDO::FETCH_ASSOC)) {
-            $produtosDestaque[] = $row;
-        }
-    
+
+    while ($row = $resultDestaque->fetch(PDO::FETCH_ASSOC)) {
+        $produtosDestaque[] = $row;
+    }
 }
 ?>
 
@@ -126,28 +125,29 @@ if ($resultDestaque->rowCount() > 0) {
                     <h2>Explore nosso jardim de delícias!</h2>
                     <div>
                         <img src="img/p1.png" alt="Camera">
-                        <h3>Arranjos Florais Exclusivos</h3>
-                        <p>Descubra a beleza única em cada buquê, elaborado artesanalmente para momentos especiais ou 
+                        <h3><strong>Arranjos</strong> Florais Exclusivos</h3>
+                        <p>Descubra a beleza única em cada buquê, elaborado artesanalmente para momentos especiais ou
                             para iluminar seu dia com frescor e elegância.</p>
                     </div>
                     <div>
                         <img src="img/p2.png" alt="Video">
-                        <h3>Cafeteria Aconchegante</h3>
-                        <p>Delicie-se em nossa cafeteria envolvente, onde o aroma fresco do café se entrelaça 
-                            harmoniosamente com as fragrâncias das flores, proporcionando uma experiência sensorial única.</p>
-                    </div>
-                    <div>
-                        <img src="img/p3.png" alt="Filmagem">
-                        <h3>Compromisso Sustentável</h3>
-                        <p>Escolha produtos que refletem nosso compromisso com a sustentabilidade, desde 
-                            arranjos florais até práticas eco-friendly, contribuindo para um planeta mais saudável.</p>
+                        <h3>Cafeteria <strong>Aconchegante</strong></h3>
+                        <p>Delicie-se em nossa cafeteria envolvente, onde o aroma fresco do café se entrelaça, 
+                            proporcionando uma experiência sensorial única.</p>
                     </div>
                     <div>
                         <img src="img/p4.png" alt="Restauração">
-                        <h3>Experiências Sensoriais Personalizadas</h3>
-                        <p>Crie momentos memoráveis com experiências personalizadas que vão além de eventos especiais. De degustações
-                             de café a workshops de arranjos florais, personalizamos cada experiência para despertar seus sentidos.</p>
+                        <h3><strong>Experiências</strong> Sensoriais Personalizadas</h3>
+                        <p>Crie momentos memoráveis com experiências personalizadas que vão além de eventos especiais. 
+                            Personalizamos cada experiência para despertar seus sentidos.</p>
                     </div>
+                    <div>
+                        <img src="img/p3.png" alt="Filmagem">
+                        <h3>Compromisso <strong>Sustentável</strong></h3>
+                        <p>Produtos que refletem nosso compromisso com a sustentabilidade,
+                             contribuindo para um planeta mais saudável.</p>
+                    </div>
+
                 </section>
                 <DIV class="r">
                     <?php include_once('view/rodape.php'); ?>

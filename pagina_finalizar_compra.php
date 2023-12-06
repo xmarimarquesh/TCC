@@ -33,6 +33,9 @@ if ($stmt) {
 <html lang="pt-BR">
 
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Galada&family=Josefin+Sans:wght@300;400&family=Josefin+Slab&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Finalizar Compra</title>
     <link rel="stylesheet" href="css/finalizar_compra.css">
@@ -40,34 +43,35 @@ if ($stmt) {
 
 <body>
 
-    <div id="carrinho">
-        <!-- Aqui, você pode mostrar os produtos que estão no carrinho -->
-    </div>
+
     <form action="" method="POST">
         <div id="form-pagamento">
+
             <h1>Finalizar Pedido</h1>
-            <label>CEP</label><input id="cep" type="text" name="cep" value="<?php echo htmlspecialchars($cep); ?>">
-            <label>Rua</label><input id="rua" type="text" name="rua" value="<?php echo htmlspecialchars($rua); ?>">
-            <label>Número</label><input id="numero_casa" type="text" name="numero_casa" value="<?php echo htmlspecialchars($numero_casa); ?>">
+            <label><strong>Confirmar endereço</strong></label>
+            <input id="cep" type="text" name="cep" value="<?php echo htmlspecialchars($cep); ?>">
+            <input id="rua" type="text" name="rua" value="<?php echo htmlspecialchars($rua); ?>">
+            <input id="numero_casa" type="text" name="numero_casa" value="<?php echo htmlspecialchars($numero_casa); ?>">
 
-
-            <label>Selecione a forma de pagamento:</label>
             <select id="forma-pagamento" name="pagamento" onchange="mostrarTroco()">
+            <option value="#">Selecione a forma de pagamento</option>
                 <option value="debito">Débito</option>
                 <option value="credito">Crédito</option>
                 <option value="pix">PIX</option>
                 <option value="dinheiro">Dinheiro</option>
             </select>
+            <p style="color:red; font-size:.9em; margin-top:2%;">***O pagamento é efetuado apenas através do ENTREGADOR</p>
+            
 
             <div id="campo-troco" style="display:none;">
-                <label for="troco">Troco para:</label>
+                <label for="troco"><strong>Troco para:</strong></label>
                 <input type="number" id="troco" name="troco" placeholder="Nota para troco">
             </div>
 
-            <label for="whatsapp">Número de WhatsApp:</label>
-            <input type="text" id="whatsapp" name="whatsapp" placeholder="Digite o número de WhatsApp">
+            <label><strong>Seu WhatsApp:</strong></label>
+            <input type="text" id="whatsapp" name="whatsapp" placeholder="Digite seu número de WhatsApp">
 
-            <label for="observacoes">Observações:</label>
+            <label for="observacoes"><strong>Observações:</strong></label>
             <input type="text" id="observacoes" name="obs" placeholder="exemplos (sem chantilly, entrega perto do mercado Açaí...)">
 
             <button onclick="finalizarCompra()">Finalizar Compra</button>
@@ -87,7 +91,9 @@ if ($stmt) {
                 campoTroco.style.display = "none";
             }
         }
-        
+
+
+
         function finalizarCompra() {
             var formaPagamento = document.getElementById("forma-pagamento").value;
             var observacoes = document.getElementById("observacoes").value;
@@ -117,12 +123,10 @@ if ($stmt) {
 
                     alert("Pedido realizado com sucesso!");
 
-                    
+                    window.location.href = 'index.php';
                 }
             });
         }
-
-        
     </script>
 
 </body>

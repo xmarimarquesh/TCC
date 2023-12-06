@@ -68,7 +68,6 @@ form input:focus{
 }
 
 form label,
-select,
 button {
     margin: 3% 3%;
     padding: 5px;
@@ -110,7 +109,8 @@ form select {
     border: 1px solid #ccc;
     border-radius: 5px;
     appearance: none; /* Remove o estilo padrão do navegador */
-    margin-bottom: 6%;
+    margin-bottom: 0;
+    margin: 0 3%;
 }
 
 /* Adicionando uma seta personalizada usando um pseudo-elemento */
@@ -126,4 +126,12 @@ form select::after {
 form select option {
     background-color: #fff;
     color: #333;
+}
+
+#detalhes-pedido{
+    background-color: rgba(205, 96, 24, 0.296);
+    padding: 1%;
+    border-radius: 2%;
+    margin: 2%;
+    text-decoration: none;
 }
